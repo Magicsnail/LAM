@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent">
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#ffffff"
+        android:orientation="vertical"
+        tools:context=".MainActivity">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#5555"
+            android:gravity="center"
+            android:minHeight="50dp"
+            android:padding="10dp"
+            android:text="子模块X"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/txt_result"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:minHeight="60dp"
+            android:text="我是ModuleX的MainActivity"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/btn_test_api"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="同步接口调用" />
+
+        <Button
+            android:id="@+id/btn_test_asyncapi"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="异步接口调用" />
+
+        <Button
+            android:id="@+id/btn_test_frag"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Fragment测试" />
+
+        <Button
+            android:id="@+id/btn_test_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="View测试" />
+
+        <LinearLayout
+            android:id="@+id/container"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:orientation="vertical"/>
+
+    </LinearLayout>
+
+</ScrollView>

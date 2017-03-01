@@ -1,0 +1,1 @@
+include ':demo', ':lamsdk', ':demo.modulex', ':demo.moduley', ':demo.framework', ':lamannotation', ':lamcompiler'
