@@ -4,7 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
-import com.cheney.lam.sdk.ModuleRouter;
+import com.cheney.lam.sdk.request.ActivityRequest;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -17,7 +17,11 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.btn1).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ModuleRouter.instance().startActivity(MainActivity.this, "modulex", "/main", null);
+//                ModuleRouter.instance().startActivity(MainActivity.this, "modulex", "/main", null);
+                ActivityRequest.acquire()
+                        .module("modulex")
+                        .path("/main")
+                        .start(MainActivity.this);
             }
         });
     }

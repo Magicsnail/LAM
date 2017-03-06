@@ -9,9 +9,13 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.cheney.lam.sdk.ModuleRequest;
-import com.cheney.lam.sdk.ModuleResponse;
+import com.cheney.lam.sdk.request.ActionRequest;
+import com.cheney.lam.sdk.request.FragmentRequest;
+import com.cheney.lam.sdk.request.IActionCallback;
+import com.cheney.lam.sdk.request.ActionResponse;
 import com.cheney.lam.sdk.ModuleRouter;
+
+import java.util.HashMap;
 
 import snail.demoframework.BaseFragment;
 
@@ -30,6 +34,11 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout);
 
+        HashMap<String, Boolean> map = new HashMap<>();
+        Boolean b = new Boolean(true);
+        map.put("a", b);
+        map.put("b", b);
+        map.put("c", b);
         root = (LinearLayout) findViewById(R.id.linearLayout);
         container = (ViewGroup) findViewById(R.id.container);
         textView = (TextView) findViewById(R.id.txt_result);
@@ -38,25 +47,63 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View v) {
                 long time = System.currentTimeMillis();
-                ModuleResponse response = ModuleRequest.acquire()
+                ActionResponse response = ActionRequest.acquire()
                         .module("moduley")
-                        .api("package")
+                        .action("package")
                         .param("who", 1688)
                         .param("where", "qianniu")
                         .invoke();
-                Log.w("Time", "cost : " + (System.currentTimeMillis()-time));
+                Log.d("Time", "cost : " + (System.currentTimeMillis()-time));
                 if (response.isSuccess()) {
                     textView.setText((String) response.getResult());
                 }
             }
         });
 
+        findViewById(R.id.btn_test_asyncapi).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ActionRequest.acquire()
+                        .module("moduley")
+                        .action("asyncapi")
+                        .param("good", true)
+                        .async(new IActionCallback() {
+                            @Override
+                            public void actionResponse(ActionResponse response) {
+                                textView.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        textView.setText("收到异步接口执行结果.");
+                                    }
+                                });
+                                switch (response.getCode()) {
+                                    case ActionResponse.ERR_MODULE_NOT_FOUND:
+                                        Log.i("test", "module not exit");
+                                        break;
+                                    case ActionResponse.ERR_API_NOT_SUPPORT:
+                                        Log.i("test", "api not support.");
+                                        break;
+                                    default:
+                                        Log.i("test", "get asyncapi responose");
+                                        break;
+                                }
+                            }
+                        })
+                        .invoke();
+            }
+        });
+
         findViewById(R.id.btn_test_frag).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Bundle bundle = new Bundle();
-                bundle.putString("param", "request from xmodule");
-                BaseFragment fragment = (BaseFragment) ModuleRouter.instance().getFragment("moduley", "YFragment", bundle);
+//                Bundle bundle = new Bundle();
+//                bundle.putString("param", "request from xmodule");
+//                BaseFragment fragment = (BaseFragment) ModuleRouter.instance().getFragment("moduley", "YFragment", bundle);
+                BaseFragment fragment = (BaseFragment)FragmentRequest.acquire()
+                        .module("moduley")
+                        .path("YFragment")
+                        .param("param", "request from xmodule")
+                        .invoke();
                 if (fragment != null) {
                     FragmentManager fragmentManager = getFragmentManager();
                     fragmentManager.beginTransaction().add(R.id.container, fragment).commit();

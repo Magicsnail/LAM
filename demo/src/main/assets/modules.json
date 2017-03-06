@@ -1,0 +1,29 @@
+{
+  "modules":[
+    {
+      "name":"moduley",
+      "package":"snail.demo.moduley",
+      "class":"ModuleY"
+    },
+
+    {
+      "name":"modulex",
+      "package":"snail.demo.modulex",
+      "class":"ModuleX",
+      "realtime":true
+    },
+
+    {
+      "name":"module2",
+      "package":"snail.demo.modulex",
+      "class":"ModuleX2"
+    },
+
+    {
+      "name":"module3",
+      "package":"snail.demo.modulex",
+      "class":"ModuleX3"
+    }
+
+  ]
+}

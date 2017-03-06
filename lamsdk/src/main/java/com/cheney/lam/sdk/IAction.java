@@ -1,5 +1,7 @@
 package com.cheney.lam.sdk;
 
+import com.cheney.lam.sdk.request.ActionResponse;
+
 import java.util.Map;
 
 /**
@@ -8,5 +10,5 @@ import java.util.Map;
 
 public interface IAction {
 
-    ModuleResponse invoke(int reqId, String api, Map<String, Object> param);
+    ActionResponse invoke(int reqId, String api, Map<String, Object> param);
 }

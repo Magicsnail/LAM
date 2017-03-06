@@ -29,5 +29,15 @@ dependencies {
     })
     compile 'com.android.support:appcompat-v7:24.2.1'
     testCompile 'junit:junit:4.12'
+
     compile project(path: ':lamsdk')
+    compile project(':demo.framework')
+
+    if (isDebug.toBoolean()) {
+
+    } else {
+        // release打包依赖工程打包
+        compile project(':demo.modulex')
+        compile project(':demo.moduley')
+    }
 }

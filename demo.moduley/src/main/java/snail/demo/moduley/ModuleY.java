@@ -8,11 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.cheney.lam.annotation.Module;
-import com.cheney.lam.sdk.IModule;
-import com.cheney.lam.sdk.ModuleResponse;
-import com.cheney.lam.sdk.finder.RouterInject;
-
-import java.util.Map;
+import com.cheney.lam.sdk.AbsModule;
 
 import snail.demoframework.BaseFragment;
 
@@ -20,7 +16,7 @@ import snail.demoframework.BaseFragment;
  * Created by cheney on 17/3/1.
  */
 @Module("moduley")
-public class ModuleY implements IModule<BaseFragment> {
+public class ModuleY extends AbsModule<BaseFragment> {
     private static String version = "1.0";
     private static String name = "moduley";
 
@@ -45,15 +41,6 @@ public class ModuleY implements IModule<BaseFragment> {
         return true;
     }
 
-    @Override
-    public ModuleResponse invokeApi(int reqId, String api, Map<String, Object> param) {
-        return RouterInject.invokeAction(this, reqId, api, param);
-    }
-
-    @Override
-    public BaseFragment getFragment(String path, Bundle params) {
-        return (BaseFragment) RouterInject.finder(this, path, params);
-    }
 
     @Override
     public View getView(Context context, String path, Bundle params) {

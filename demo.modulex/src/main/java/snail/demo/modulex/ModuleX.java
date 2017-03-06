@@ -6,8 +6,8 @@ import android.view.View;
 
 import com.cheney.lam.annotation.Module;
 import com.cheney.lam.sdk.IModule;
-import com.cheney.lam.sdk.ModuleResponse;
-import com.cheney.lam.sdk.finder.RouterInject;
+import com.cheney.lam.sdk.request.ActionResponse;
+import com.cheney.lam.sdk.finder.ModuleInject;
 
 import java.util.Map;
 
@@ -42,13 +42,13 @@ public class ModuleX implements IModule<BaseFragment> {
     }
 
     @Override
-    public ModuleResponse invokeApi(int reqId, String api, Map<String, Object> param) {
-        return RouterInject.invokeAction(this, reqId, api, param);
+    public ActionResponse invokeApi(int reqId, String api, Map<String, Object> param) {
+        return ModuleInject.invokeAction(this, reqId, api, param);
     }
 
     @Override
     public BaseFragment getFragment(String path, Bundle params) {
-        return (BaseFragment) RouterInject.finder(this, path, params);
+        return (BaseFragment) ModuleInject.finder(this, path, params);
     }
 
     @Override

@@ -139,7 +139,8 @@ public class RouterProcessor extends AbstractProcessor {
             String value = export.value();
             String[] apis = value.split(",");
             for (String api : apis) {
-                staticCodeBuilder.addStatement("sActionClzMap.put(\"$L\",$L.class)", api, te.getQualifiedName());
+                String path = api.trim();
+                staticCodeBuilder.addStatement("sActionClzMap.put(\"$L\",$L.class)", path, te.getQualifiedName());
             }
         }
 
@@ -173,6 +174,7 @@ public class RouterProcessor extends AbstractProcessor {
                 .returns(actionClass)
                 .addAnnotation(Override.class)
                 .addParameter(String.class, "api")
+                .addStatement("android.util.Log.w(\"Finder\", \"findAction : \" +  api);")
                 .addStatement("IAction action = (IAction)actionMap.get($L)", "api")
                 .beginControlFlow("if (action == null)")
                 .addStatement("Object obj = sActionClzMap.get($L)", "api")
@@ -184,19 +186,24 @@ public class RouterProcessor extends AbstractProcessor {
                 .addStatement("return instance")
                 .endControlFlow()
                 .beginControlFlow("catch(InstantiationException e)")
+                .addStatement("android.util.Log.w(\"Finder\", \"findAction InstantiationException\");")
                 .endControlFlow()
                 .beginControlFlow("catch(IllegalAccessException e)")
+                .addStatement("android.util.Log.w(\"Finder\", \"findAction IllegalAccessException\");")
                 .endControlFlow()
                 .endControlFlow()
+                .beginControlFlow("else")
+                .addStatement("android.util.Log.w(\"Finder\", \"findAction clazz not found, size: \" +  sActionClzMap.size());")
                 .endControlFlow()
-                .addStatement("return null")
+                .endControlFlow()
+                .addStatement("return action")
                 .build();
 
         System.out.println("@Step: 8");
         // Finder类
         TypeSpec.Builder classBuilder = TypeSpec.classBuilder(moduleClassName + "$$Finder")
                 .addModifiers(Modifier.FINAL, Modifier.PUBLIC)
-                .addSuperinterface(ClassName.get("qianniu.routerinjector", "IFinder"))
+                .addSuperinterface(ClassName.get("com.cheney.lam.sdk.finder", "IFinder"))
                 .addField(fragMapFiled)
                 .addField(actionClzMapField)
                 .addField(actionMapField)

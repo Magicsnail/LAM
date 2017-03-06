@@ -5,6 +5,8 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 
+import com.cheney.lam.sdk.request.ActionResponse;
+
 import java.util.Map;
 
 /**
@@ -21,7 +23,7 @@ public interface IModule<T extends Fragment> {
 
     boolean isReady();
 
-    ModuleResponse invokeApi(int reqId, String api, Map<String, Object> param);
+    ActionResponse invokeApi(int reqId, String api, Map<String, Object> param);
 
     T getFragment(String path, Bundle params);
 
